@@ -107,7 +107,7 @@ def parse_creatures(root):
                     mutations.append(internal)
 
             elif child.tag == "skill":
-                internal_name = child.attrib.get("Class")  # <-- use Class as internal_name
+                internal_name = child.attrib.get("Name")
                 if internal_name:
                     skills.append(internal_name)
 
@@ -221,8 +221,9 @@ def create_db_entries(resolved):
             try:
                 obj = Skill.objects.get(internal_name=s)
                 skill_objs.append(obj)
+                print("Got skill: ", s)
             except Skill.DoesNotExist:
-                print("Missing skill:", s)
+                print("Missing skill (probably the skill tree):", s)
 
         creature.skills.set(skill_objs)
 
