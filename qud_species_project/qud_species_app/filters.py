@@ -3,6 +3,7 @@ from django.db.models import Sum
 from .models import Creature
 
 class CreatureFilter(django_filters.FilterSet):
+    type = django_filters.ChoiceFilter(choices=Creature.TYPE_CHOICES)
     skills = django_filters.CharFilter(field_name="skills__internal_name", lookup_expr='icontains', label="Skills")
     mutations = django_filters.CharFilter(field_name="mutations__internal_name", lookup_expr='icontains',  label="Mutations")
     body_parts = django_filters.CharFilter(field_name="anatomy__parts__part_name", lookup_expr='icontains', label="Body Parts")    
@@ -13,7 +14,7 @@ class CreatureFilter(django_filters.FilterSet):
 
     class Meta:
         model = Creature
-        fields = ['skills', 'mutations', 'body_parts', 'anatomy', 'part_count_min', 'part_name']
+        fields = ['type', 'skills', 'mutations', 'body_parts', 'anatomy', 'part_count_min', 'part_name']
 
     def filter_by_part_count(self, queryset, name, value):
         """
