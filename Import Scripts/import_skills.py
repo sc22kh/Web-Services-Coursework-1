@@ -23,6 +23,7 @@ def import_skills(xml_path):
             name = power.get("Name")
             cost = int(power.get("Cost"))
             attribute = power.get("Attribute").lower()
+            internal_name = power.get("Class")  # <-- set internal_name from XML
 
             Skill.objects.get_or_create(
                 name=name,
@@ -30,10 +31,11 @@ def import_skills(xml_path):
                     "skilltree": skilltree,
                     "cost": cost,
                     "attribute": attribute,
+                    "internal_name": internal_name,
                 }
             )
 
-            print(f"Added skill: {name}")
+            print(f"Added skill: {name} ({internal_name})")
 
 
 if __name__ == "__main__":

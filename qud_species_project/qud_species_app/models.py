@@ -53,6 +53,9 @@ class Creature(models.Model):
     mutations = models.ManyToManyField("Mutation", blank=True)
     skills = models.ManyToManyField("Skill", blank=True)
 
+    def __str__(self):
+        return self.name
+
 class Mutation(models.Model):
 
     TYPE_CHOICES = [
@@ -61,13 +64,15 @@ class Mutation(models.Model):
         ("physical_defect", "Physical Defect"),
         ("mental", "Mental"),
         ("mental_defect", "Mental Defect")
-        
     ]
 
     name = models.CharField(max_length=100, unique=True)
     internal_name = models.CharField(max_length=100, unique=True)
     cost = models.IntegerField(null=True, blank=True)
     type = models.CharField(max_length=20, choices=TYPE_CHOICES)
+
+    def __str__(self):
+        return self.name
 
 class BodyPart(models.Model):
 
@@ -84,11 +89,17 @@ class BodyPart(models.Model):
         'self', blank=True, null=True, on_delete=models.SET_NULL, related_name="required_by"
     )
 
+    def __str__(self):
+        return self.part_name
+
 class Anatomy(models.Model):
     name = models.CharField(max_length=100, unique=True)
     parts = models.ManyToManyField(
         BodyPart, through='BodyPartCount', related_name="anatomies"
     )
+
+    def __str__(self):
+        return self.name
 
 class BodyPartCount(models.Model):
     anatomy = models.ForeignKey(Anatomy, on_delete=models.CASCADE)
@@ -97,6 +108,9 @@ class BodyPartCount(models.Model):
 
     class Meta:
         unique_together = ('anatomy', 'body_part')
+    
+    def __str__(self):
+        return f"{self.count} x {self.body_part.part_name} in {self.anatomy.name}"
 
 class Skill(models.Model):
     SKILLTREE_CHOICES = [
@@ -138,9 +152,13 @@ class Skill(models.Model):
         help_text="The skill tree/category this skill belongs to"
     )
     name = models.CharField(max_length=100, unique=True)
+    internal_name = models.CharField(max_length=100, unique=True)
     cost = models.PositiveIntegerField()
     attribute = models.CharField(
         max_length=50,
         choices=ATTRIBUTE_CHOICES,
         help_text="Primary attribute this skill is associated with"
     )
+
+    def __str__(self):
+        return self.name

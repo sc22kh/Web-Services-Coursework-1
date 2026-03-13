@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework',
     'qud_species_app.apps.QudSpeciesAppConfig',
     'django.contrib.admin',
     'django.contrib.auth',
