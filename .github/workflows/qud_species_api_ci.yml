@@ -1,0 +1,38 @@
+name: QudSpecies API CI
+
+on:
+  push:
+    branches: 
+      - "main"
+      - "master"
+      - "feature/*"
+  pull_request:
+    branches: 
+      - "main"
+      - "master"
+      - "feature/*"
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run QudSpeciesAPI Tests
+      run: |
+        python manage.py test
+      env:
+        DJANGO_SECRET_KEY: "temporary-ci-key-for-testing"
+        DEBUG: "False"
