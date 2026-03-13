@@ -23,15 +23,15 @@ class Creature(models.Model):
     av = models.IntegerField(null=True, blank=True)
     dv = models.IntegerField(null=True, blank=True)
     hitpoints = models.IntegerField(null=True, blank=True)
-    level = models.IntegerField(null=True, blank=True)
+    level = models.CharField(max_length=50)
 
     # Attributes
-    strength = models.IntegerField(null=True, blank=True)
-    agility = models.IntegerField(null=True, blank=True)
-    toughness = models.IntegerField(null=True, blank=True)
-    intelligence = models.IntegerField(null=True, blank=True)
-    willpower = models.IntegerField(null=True, blank=True)
-    ego = models.IntegerField(null=True, blank=True)
+    strength = models.CharField(max_length=50)
+    agility = models.CharField(max_length=50)
+    toughness = models.CharField(max_length=50)
+    intelligence = models.CharField(max_length=50)
+    willpower = models.CharField(max_length=50)
+    ego = models.CharField(max_length=50)
 
     # Resistances
     heat_resistance = models.IntegerField(null=True, blank=True)
@@ -56,23 +56,20 @@ class Creature(models.Model):
 class Mutation(models.Model):
 
     TYPE_CHOICES = [
+        ("morphotypes", "Morphotypes"),
         ("physical", "Physical"),
         ("physical_defect", "Physical Defect"),
         ("mental", "Mental"),
-        ("mental_defect", "Mental Defect"),
+        ("mental_defect", "Mental Defect")
+        
     ]
 
     name = models.CharField(max_length=100, unique=True)
+    internal_name = models.CharField(max_length=100, unique=True)
     cost = models.IntegerField(null=True, blank=True)
     type = models.CharField(max_length=20, choices=TYPE_CHOICES)
 
 class BodyPart(models.Model):
-    BRANCHING_CHOICES = [
-        ("lateral", "Lateral"),
-        ("longitudinal", "Longitudinal"),
-        ("vertical", "Vertical"),
-        ("stratal", "Stratal"),
-    ]
 
     part_name = models.CharField(max_length=100, unique=True)
     integral = models.BooleanField(default=False)
@@ -85,12 +82,6 @@ class BodyPart(models.Model):
     )
     requires_part = models.ForeignKey(
         'self', blank=True, null=True, on_delete=models.SET_NULL, related_name="required_by"
-    )
-    branching = models.CharField(
-        max_length=100,
-        choices=BRANCHING_CHOICES,
-        default="lateral",
-        help_text="Primary branching direction"
     )
 
 class Anatomy(models.Model):
@@ -106,8 +97,6 @@ class BodyPartCount(models.Model):
 
     class Meta:
         unique_together = ('anatomy', 'body_part')
-
-
 
 class Skill(models.Model):
     SKILLTREE_CHOICES = [
