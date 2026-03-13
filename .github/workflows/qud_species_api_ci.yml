@@ -31,6 +31,7 @@ jobs:
         pip install -r requirements.txt
 
     - name: Run QudSpeciesAPI Tests
+      working-directory: ./qud_species_project
       run: |
         python manage.py test
       env:
