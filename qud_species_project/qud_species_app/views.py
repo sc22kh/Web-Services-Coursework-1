@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from .models import Creature
+from .serializers import CreatureSerializer
 
-# Create your views here.
+class CreatureViewSet(viewsets.ModelViewSet):
+    queryset = Creature.objects.all()
+    serializer_class = CreatureSerializer
