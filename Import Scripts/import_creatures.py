@@ -107,10 +107,9 @@ def parse_creatures(root):
                     mutations.append(internal)
 
             elif child.tag == "skill":
-
-                skill_name = child.attrib.get("Name")
-                if skill_name:
-                    skills.append(skill_name)
+                internal_name = child.attrib.get("Class")  # <-- use Class as internal_name
+                if internal_name:
+                    skills.append(internal_name)
 
         creatures[name] = {
             "type": current_type,
@@ -219,8 +218,11 @@ def create_db_entries(resolved):
         skill_objs = []
 
         for s in data["skills"]:
-            obj, _ = Skill.objects.get_or_create(name=s, defaults={"cost": 0})
-            skill_objs.append(obj)
+            try:
+                obj = Skill.objects.get(internal_name=s)
+                skill_objs.append(obj)
+            except Skill.DoesNotExist:
+                print("Missing skill:", s)
 
         creature.skills.set(skill_objs)
 
