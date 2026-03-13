@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'rest_framework',
+    'django_filters',
     'qud_species_app.apps.QudSpeciesAppConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,6 +41,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'FORM_METHOD_OVERRIDE': False
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
