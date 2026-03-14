@@ -16,6 +16,8 @@ To run the server, do
 
 The API will be accessible at http://127.0.0.1:8000/api/
 
+The API has also been deployed on PythonAnywhere, accessible here https://kaddykins.eu.pythonanywhere.com/api/
+
 ## Documentation
 
 The documentation can be accessed at http://127.0.0.1:8000/api/docs/ or at as a PDF [here](<QudSpecies API Docs.pdf>)
