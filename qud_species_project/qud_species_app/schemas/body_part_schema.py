@@ -28,7 +28,7 @@ BODY_PART_SCHEMAS = {
         responses={200: BodyPartSerializer, 404: OpenApiTypes.OBJECT},
         examples=[
             OpenApiExample("Body Part Detail", value=LIP_DATA, response_only=True),
-            OpenApiExample("Not Found", status_codes=["404"], value={"detail": "No BodyPart matches..."})
+            OpenApiExample("Not Found", status_codes=["404"], value={"detail": "No BodyPart matches the given query."})
         ]
     ),
 
@@ -36,7 +36,15 @@ BODY_PART_SCHEMAS = {
         summary="Create body part",
         responses={201: BodyPartSerializer, 400: OpenApiTypes.OBJECT, 401: OpenApiTypes.OBJECT, 403: OpenApiTypes.OBJECT},
         examples=[
-            OpenApiExample("Create Request", value=LIP_DATA, request_only=True),
+            OpenApiExample("Create Request", value={
+                "part_name": "Lip",
+                "integral": False,
+                "appendage": True,
+                "plural": False,
+                "mortal": False,
+                "usually_on": 2,
+                "requires_part": 3
+            }, request_only=True),
             OpenApiExample("Create Response", value=LIP_DATA, status_codes=["201"], response_only=True),
             *AUTH_ERROR_EXAMPLES,
             OpenApiExample("Validation Error", status_codes=["400"], value={
@@ -52,7 +60,8 @@ BODY_PART_SCHEMAS = {
         examples=[
             OpenApiExample("Full Update Example", value={**LIP_DATA, "part_name": "Lower Lip"}, response_only=True),
             *AUTH_ERROR_EXAMPLES,
-            OpenApiExample("Validation Error", status_codes=["400"], value={"part_name": ["This field is required."]})
+            OpenApiExample("Validation Error", status_codes=["400"], value={"part_name": ["This field is required."]}),
+            OpenApiExample("Not Found", status_codes=["404"], value={"detail": "No BodyPart matches the given query."})
         ]
     ),
 
@@ -62,7 +71,8 @@ BODY_PART_SCHEMAS = {
         examples=[
             OpenApiExample("Patch Mortal Example", value={"mortal": True}, response_only=True),
             *AUTH_ERROR_EXAMPLES,
-            OpenApiExample("Invalid Type", status_codes=["400"], value={"mortal": ["Must be a valid boolean."]})
+            OpenApiExample("Invalid Type", status_codes=["400"], value={"mortal": ["Must be a valid boolean."]}),
+            OpenApiExample("Not Found", status_codes=["404"], value={"detail": "No BodyPart matches the given query."})
         ]
     ),
 
@@ -71,7 +81,8 @@ BODY_PART_SCHEMAS = {
         responses={204: None, 401: OpenApiTypes.OBJECT, 403: OpenApiTypes.OBJECT, 404: OpenApiTypes.OBJECT},
         examples=[
             OpenApiExample("Deleted", status_codes=["204"], value=None),
-            *AUTH_ERROR_EXAMPLES
+            *AUTH_ERROR_EXAMPLES,
+            OpenApiExample("Not Found", status_codes=["404"], value={"detail": "No BodyPart matches the given query."})
         ]
     ),
 }

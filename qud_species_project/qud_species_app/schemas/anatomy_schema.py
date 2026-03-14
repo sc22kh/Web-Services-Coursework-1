@@ -23,7 +23,7 @@ ANATOMY_SCHEMAS = {
         responses={200: AnatomySerializer, 404: OpenApiTypes.OBJECT},
         examples=[
             OpenApiExample("Anatomy Detail", value=HUMANOID_DATA, response_only=True),
-            OpenApiExample("Not Found", status_codes=["404"], value={"detail": "No Anatomy matches..."})
+            OpenApiExample("Not Found", status_codes=["404"], value={"detail":"No Anatomy matches the given query."})
         ]
     ),
 
@@ -31,7 +31,10 @@ ANATOMY_SCHEMAS = {
         summary="Create anatomy",
         responses={201: AnatomySerializer, 400: OpenApiTypes.OBJECT, 401: OpenApiTypes.OBJECT, 403: OpenApiTypes.OBJECT},
         examples=[
-            OpenApiExample("Create Request", value=HUMANOID_DATA, request_only=True),
+            OpenApiExample("Create Request", value={
+                "name": "Humanoid",
+                "parts": [2, 3, 4, 5, 6, 8, 9, 12]
+            }, request_only=True),
             OpenApiExample("Create Response", value=HUMANOID_DATA, status_codes=["201"], response_only=True),
             *AUTH_ERROR_EXAMPLES,
             OpenApiExample("Validation Error", status_codes=["400"], value={
@@ -45,19 +48,21 @@ ANATOMY_SCHEMAS = {
         summary="Update anatomy",
         responses={200: AnatomySerializer, 400: OpenApiTypes.OBJECT, 401: OpenApiTypes.OBJECT, 403: OpenApiTypes.OBJECT, 404: OpenApiTypes.OBJECT},
         examples=[
-            OpenApiExample("Full Update Example", value={**HUMANOID_DATA, "name": "Modified Humanoid"}, response_only=True),
+            OpenApiExample("Full Update Example", value={**HUMANOID_DATA, "name": "Modified Humanoid"}),
             *AUTH_ERROR_EXAMPLES,
-            OpenApiExample("Validation Error", status_codes=["400"], value={"parts": ["Invalid pk \"999\" - object does not exist."]})
+            OpenApiExample("Validation Error", status_codes=["400"], value={"parts": ["Invalid pk \"999\" - object does not exist."]}),
+            OpenApiExample("Not Found", status_codes=["404"], value={"detail": "No Anatomy matches the given query."})
         ]
     ),
-
     "partial_update": extend_schema(
         summary="Partial update anatomy",
         responses={200: AnatomySerializer, 400: OpenApiTypes.OBJECT, 401: OpenApiTypes.OBJECT, 404: OpenApiTypes.OBJECT},
         examples=[
-            OpenApiExample("Patch Parts Example", value={"parts": [1, 2, 3]}, response_only=True),
+            OpenApiExample("Patch Parts Example", value={"parts": [2, 3, 4, 5, 6, 8, 9, 12]}, request_only=True),
+            OpenApiExample("Patch Parts Response", value=HUMANOID_DATA, response_only=True),
             *AUTH_ERROR_EXAMPLES,
-            OpenApiExample("Invalid Data", status_codes=["400"], value={"parts": ["Expected a list of items but got type \"string\"."]})
+            OpenApiExample("Invalid Data", status_codes=["400"], value={"parts": ["Expected a list of items but got type \"string\"."]}),
+            OpenApiExample("Not Found", status_codes=["404"], value={"detail": "No Anatomy matches the given query."})
         ]
     ),
 
@@ -66,7 +71,8 @@ ANATOMY_SCHEMAS = {
         responses={204: None, 401: OpenApiTypes.OBJECT, 403: OpenApiTypes.OBJECT, 404: OpenApiTypes.OBJECT},
         examples=[
             OpenApiExample("Deleted", status_codes=["204"], value=None),
-            *AUTH_ERROR_EXAMPLES
+            *AUTH_ERROR_EXAMPLES,
+            OpenApiExample("Not Found", status_codes=["404"], value={"detail": "No Anatomy matches the given query."}),
         ]
     ),
 

@@ -25,7 +25,7 @@ MUTATION_SCHEMAS = {
         responses={200: MutationSerializer, 404: OpenApiTypes.OBJECT},
         examples=[
             OpenApiExample("Mutation Detail", value=CHIMERA_DATA, response_only=True),
-            OpenApiExample("Not Found", status_codes=["404"], value={"detail": "No Mutation matches..."})
+            OpenApiExample('Not Found', status_codes=["404"], value={"detail": "No Mutation matches the given query."})
         ]
     ),
 
@@ -33,10 +33,16 @@ MUTATION_SCHEMAS = {
         summary="Create mutation",
         responses={201: MutationSerializer, 400: OpenApiTypes.OBJECT, 401: OpenApiTypes.OBJECT, 403: OpenApiTypes.OBJECT},
         examples=[
-            OpenApiExample("Create Request", value=CHIMERA_DATA, request_only=True),
+            OpenApiExample("Create Request", value={
+                "name": "Chimera",
+                "internal_name": "Chimera",
+                "cost": 1,
+                "type": "morphotypes"
+            }, 
+            request_only=True),
             OpenApiExample("Create Response", value=CHIMERA_DATA, status_codes=["201"], response_only=True),
             *AUTH_ERROR_EXAMPLES,
-            OpenApiExample("Validation Error", status_codes=["400"], value={"internal_name": ["Required."], "type": ["Invalid choice."]})
+            OpenApiExample("Validation Error", status_codes=["400"], value={"internal_name": ["This field is required."]})
         ]
     ),
 
@@ -44,9 +50,10 @@ MUTATION_SCHEMAS = {
         summary="Update mutation",
         responses={200: MutationSerializer, 400: OpenApiTypes.OBJECT, 401: OpenApiTypes.OBJECT, 403: OpenApiTypes.OBJECT, 404: OpenApiTypes.OBJECT},
         examples=[
-            OpenApiExample("Full Update Example", value={**CHIMERA_DATA, "cost": 2}, response_only=True),
+            OpenApiExample("Full Update Example", value={**CHIMERA_DATA, "cost": 2}),
             *AUTH_ERROR_EXAMPLES,
-            OpenApiExample("Not Found", status_codes=["404"], value={"detail": "No Mutation matches..."})
+            OpenApiExample('Validation Error', status_codes=["400"], value={"cost": ["A valid integer is required."]}),
+            OpenApiExample("Not Found", status_codes=["404"], value={"detail": "No Mutation matches the given query."})
         ]
     ),
 
@@ -54,8 +61,11 @@ MUTATION_SCHEMAS = {
         summary="Partial update mutation",
         responses={200: MutationSerializer, 400: OpenApiTypes.OBJECT, 401: OpenApiTypes.OBJECT, 404: OpenApiTypes.OBJECT},
         examples=[
-            OpenApiExample("Patch Cost Example", value={"cost": 4}, response_only=True),
-            *AUTH_ERROR_EXAMPLES
+            OpenApiExample("Patch Cost Example", value={"cost": 1}, request_only=True),
+            OpenApiExample("Full Update Response", value={**CHIMERA_DATA}, response_only=True),
+            *AUTH_ERROR_EXAMPLES,
+            OpenApiExample("Bad Request", status_codes=["400"], value={"cost": ["A valid integer is required."]}),
+            OpenApiExample("Not Found", status_codes=["404"], value={"detail": "No Mutation matches the given query."})
         ]
     ),
 
@@ -64,7 +74,9 @@ MUTATION_SCHEMAS = {
         responses={204: None, 401: OpenApiTypes.OBJECT, 403: OpenApiTypes.OBJECT, 404: OpenApiTypes.OBJECT},
         examples=[
             OpenApiExample("Deleted", status_codes=["204"], value=None),
-            *AUTH_ERROR_EXAMPLES
+            *AUTH_ERROR_EXAMPLES,
+            OpenApiExample("Not Found", status_codes=["404"], value={"detail": "No Mutation matches the given query."})
+
         ]
     ),
 
