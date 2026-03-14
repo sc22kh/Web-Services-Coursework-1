@@ -35,6 +35,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'drf_spectacular',
     'rest_framework',
     'django_filters',
     'qud_species_app.apps.QudSpeciesAppConfig',
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
 ]
 
 REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     'FORM_METHOD_OVERRIDE': False,
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -66,6 +68,32 @@ REST_FRAMEWORK = {
         'anon': '100/day', 
         'user': '1000/day'   
     }
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'QudSpecies API',
+    'DESCRIPTION': (
+        "# QudSpecies API\n\n"
+        "An API for studying the creatures featured in the game 'Caves of Qud'.\n\n"
+        "This API provides endpoints for sorting through creature's stats, mutations, anatomy, and even specific body parts. "
+        "It also has features for analysing patterns between creatures, such as the most common mutations or average stats by tier.\n\n"
+        "Developed to be a reasource for players and the modding community. "
+        "Hopefully this will help you create some crazy builds or creatures!\n\n"
+        "### Authentication\n"
+        "* Note that **POST**, **PUT**, **PATCH** and **DELETE** routes require JWT or session authentication.\n"
+        "* To obtain a JWT token, send a `POST` request to `/api/token/` with valid admin credentials."
+    ),
+    'TAGS': [
+        {'name': 'creatures', 'description': 'A creature is any in-game entity with the Brain part in the game\'s data.'},
+        {'name': 'mutations'},
+        {'name': 'anatomies', 'description': 'Defines the structure of a creature, containing it\'s body parts.'},
+        {'name': 'skills'},
+        {'name': 'body-parts', 'description': 'This includes all variants.'},
+    ],
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # This groups your tags nicely in the sidebar
+    'COMPONENT_SPLIT_PATCH': True, 
 }
 
 SIMPLE_JWT = {
