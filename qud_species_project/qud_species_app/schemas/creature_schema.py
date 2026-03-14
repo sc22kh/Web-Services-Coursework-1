@@ -34,17 +34,28 @@ CREATURE_SCHEMAS = {
         summary="Retrieve all creatures",
         description="Returns a detailed list of all creatures.",
         parameters=[
-            OpenApiParameter(name='mutations', type=str, description='Filter by mutation internal_name'),
-            OpenApiParameter(name='skills', type=str, description='Filter by skill internal_name'),
+            OpenApiParameter(name='mutation', type=str, description='Filter by mutation internal_name'),
+            OpenApiParameter(name='skill', type=str, description='Filter by skill internal_name'),
             OpenApiParameter(name='anatomy', type=str, description='Filter by anatomy name'),
-            OpenApiParameter(name='type', enum=[choice[0] for choice in Creature.TYPE_CHOICES]),
-            OpenApiParameter(name='species', type=str),
-            OpenApiParameter(name='ordering', type=str, enum=[
-                'name', '-name', 'species', '-species', 'hitpoints', '-hitpoints', 
-                'av', '-av', 'dv', '-dv', 'level', '-level'
+            OpenApiParameter(name='type', enum=[choice[0] for choice in Creature.TYPE_CHOICES], description='Filter by type'),
+            OpenApiParameter(name='species', type=str, description='Filter by species'),
+            OpenApiParameter(name='ordering', description='Sort by selected attribute, use - for descending order', type=str, enum=[
+                'name', '-name', 
+                'species', '-species', 
+                'hitpoints', '-hitpoints', 
+                'av', '-av', 
+                'dv', '-dv', 
+                'level', '-level', 
+                'type', '-type',
+                'strength_base', '-strength_base', 
+                'agility_base', '-agility_base', 
+                'toughness_base', '-toughness_base', 
+                'intelligence_base', '-intelligence_base', 
+                'willpower_base', '-willpower_base', 
+                'ego_base', '-ego_base'
             ]),
-            OpenApiParameter(name='part_name', type=str),
-            OpenApiParameter(name='part_count_min', type=int),
+            OpenApiParameter(name='part_name', type=str, description='Filter by a body part name'),
+            OpenApiParameter(name='part_count_min', type=int,  description='Require at least this number of body parts, requires part_name'),
         ],
         examples=[
             OpenApiExample("Apothecary in list", value=[APOTHECARY_DATA])

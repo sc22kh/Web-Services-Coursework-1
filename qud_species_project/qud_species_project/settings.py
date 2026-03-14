@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'static_files'
 
-ALLOWED_HOSTS = ['kaddykins.eu.pythonanywhere.com']
+ALLOWED_HOSTS = ["127.0.0.1", 'kaddykins.eu.pythonanywhere.com']
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
@@ -30,7 +30,7 @@ ALLOWED_HOSTS = ['kaddykins.eu.pythonanywhere.com']
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 
 # Application definition
