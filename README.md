@@ -18,4 +18,4 @@ The API will be accessible at http://127.0.0.1:8000/api/
 
 ## Documentation
 
-The documentation can be accessed at http://127.0.0.1:8000/api/docs/ or at as a PDF [here](QudSpecies API Docs.pdf)
+The documentation can be accessed at http://127.0.0.1:8000/api/docs/ or at as a PDF [here](<QudSpecies API Docs.pdf>)
