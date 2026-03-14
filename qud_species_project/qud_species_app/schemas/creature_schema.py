@@ -109,7 +109,31 @@ CREATURE_SCHEMAS = {
     "partial_update": extend_schema(
         summary="Partially update a creature",
         examples=[
-            OpenApiExample("Patch HP", value={"hitpoints": 75}),
+            OpenApiExample("Patch HP", value={"hitpoints": 75}, request_only=True),
+            OpenApiExample("Patched HP Response", value={
+                "id": 1,
+                "name": "Creature",
+                "type": "base_creature",
+                "av": 0,
+                "dv": 0,
+                "hitpoints": 75,
+                "level": "1",
+                "strength": "16",
+                "agility": "16",
+                "toughness": "16",
+                "intelligence": "16",
+                "willpower": "16",
+                "ego": "16",
+                "heat_resistance": 0,
+                "cold_resistance": 0,
+                "electric_resistance": 0,
+                "acid_resistance": 0,
+                "species": "",
+                "faction": "Beasts",
+                "anatomy": 1,
+                "mutations": [],
+                "skills": []
+            }, response_only=True),
             OpenApiExample('Invalid Data', status_codes=["400"], value={"hitpoints": ["A valid integer is required."]}),
             *AUTH_ERROR_EXAMPLES
         ],
