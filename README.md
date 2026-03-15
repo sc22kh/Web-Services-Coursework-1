@@ -11,6 +11,11 @@ Developed to be a reasource for players and the modding community. Hopefully thi
 Import scripts -
 - To use import scripts, move them and the XML files from Caves of Qud's Source (Bodies.XML, Creatures.XML, Mutations.XML, HiddenMutations.XML, Skills.XML) to the root. Run them all.
 
+The database is included in the repo for convinience.
+
+To install dependencies
+- pip install -r requirements.txt
+
 To run the server, do
 - python manage.py runserver
 
