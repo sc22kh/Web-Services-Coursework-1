@@ -25,4 +25,4 @@ The API has also been deployed on PythonAnywhere, accessible here https://kaddyk
 
 ## Documentation
 
-The documentation can be accessed at http://127.0.0.1:8000/api/docs/ or at as a PDF [here](<QudSpecies API Docs.pdf>)
+The documentation can be accessed at https://kaddykins.eu.pythonanywhere.com/api/docs/ or at as a PDF [here](<QudSpecies API Docs.pdf>)
